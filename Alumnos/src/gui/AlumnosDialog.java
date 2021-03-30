@@ -5,16 +5,14 @@
  */
 package gui;
 
-import exepciones.CalificacionErroneaExeption;
+import exepciones.*;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
+import exepciones.CampoVacio;
 import model.Alumno;
-import model.Carrera;
 
 /**
  *
@@ -81,8 +79,8 @@ public class AlumnosDialog extends JDialog {
                 Alumno alumno;
                 try {
 
-
                     String x = ((String) comboBoxCarreras.getSelectedItem());
+                    /*
 
                     if  (edtNoControl.getText().isEmpty() || edtNombre.getText().isEmpty() || edtPaterno.getText().isEmpty() || edtMaterno.getText().isEmpty() || x == null){
                         if (edtNoControl.getText().isEmpty()) {
@@ -102,25 +100,29 @@ public class AlumnosDialog extends JDialog {
                             edtMaterno.requestFocus(true);
                             JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido materno", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+                    }else{*/
                         if (x == null) {
                             JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega una carrera", "Error", JOptionPane.ERROR_MESSAGE);
+                        }else {
+
+                            alumno = new Alumno(edtNoControl.getText(),
+                                    edtNombre.getText(),
+                                    edtPaterno.getText(),
+                                    edtMaterno.getText(),
+                                    (new Double(edtCalificacion.getText())),
+                                    x);
+
+                            listener.aceptarButtonClick(alumno);
                         }
-                    }else{
 
-                    alumno = new Alumno(edtNoControl.getText(),
-                            edtNombre.getText(),
-                            edtPaterno.getText(),
-                            edtMaterno.getText(),
-                            (new Double(edtCalificacion.getText())),
-                            ((String) comboBoxCarreras.getSelectedItem()));
-
-                    listener.aceptarButtonClick(alumno);
-
-                    }
                 } catch (CalificacionErroneaExeption ex) {
-                    JOptionPane.showMessageDialog(AlumnosDialog.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(AlumnosDialog.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (CampoVacio ex){
+                   JOptionPane.showMessageDialog(AlumnosDialog.this, "Dejaste un campo vacio", "Error", JOptionPane.ERROR_MESSAGE);JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -161,5 +163,15 @@ public class AlumnosDialog extends JDialog {
 
     public void setListener(AlumnoDialogListener listener) {
         this.listener = listener;
+    }
+
+
+    public void clean(){
+        this.edtNoControl.setText("");
+        this.edtNombre.setText("");
+        this.edtPaterno.setText("");
+        this.edtMaterno.setText("");
+        this.edtCalificacion.setText("");
+        comboBoxCarreras.setSelectedIndex(-1);
     }
 }

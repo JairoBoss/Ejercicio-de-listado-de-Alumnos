@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 
 public class PrincipalFrame extends JFrame {
-
+    private AcercaDeDialog acercaDeDialog;
     private BusquedaPanel pnlBusqueda;
     private JTable tblAlumnos;
     private Controller controlador;
@@ -75,6 +75,8 @@ public class PrincipalFrame extends JFrame {
             }
         });
 
+        acercaDeDialog = new AcercaDeDialog(this);
+
         dlgAlumno = new AlumnosDialog(this);
         dlgAlumno.setListener(new AlumnoDialogListener() {
             @Override
@@ -84,6 +86,7 @@ public class PrincipalFrame extends JFrame {
                     controlador.add(a);
                     modelAlumnos.fireTableDataChanged();
                     dlgAlumno.setVisible(false);
+                    dlgAlumno.clean();
 
                 } catch (AlumnosExistenteExeption e) {
                     JOptionPane.showMessageDialog(PrincipalFrame.this,
@@ -113,6 +116,13 @@ public class PrincipalFrame extends JFrame {
         JMenu mmAlumnos = new JMenu("Alumnos");
         JMenuItem miNuevoAlumno = new JMenuItem("Nuevo ..");
         JMenuItem miSalir = new JMenuItem("Salir");
+
+        miSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        });
 
         mmAlumnos.add(miNuevoAlumno);
         miNuevoAlumno.addActionListener(new ActionListener() {
@@ -149,7 +159,16 @@ public class PrincipalFrame extends JFrame {
 
         JMenu mmAyuda = new JMenu("Ayuda");
         JMenuItem miAcercaDe = new JMenuItem("Acerca de");
+
+
         mmAyuda.add(miAcercaDe);
+
+        miAcercaDe.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                acercaDeDialog.setVisible(true);
+            }
+        });
 
         menu.add(mmAlumnos);
         menu.add(mmAyuda);

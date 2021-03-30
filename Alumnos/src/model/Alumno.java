@@ -6,16 +6,16 @@
 package model;
 
 import exepciones.CalificacionErroneaExeption;
+import exepciones.CampoVacio;
+
 import java.io.Serializable;
 
 /**
- *
  * @author Megabit
  */
-public class Alumno implements Serializable{
-    
-    
-    
+public class Alumno implements Serializable {
+
+
     private String noCOntrol;
     private String nombre;
     private String paterno;
@@ -23,49 +23,38 @@ public class Alumno implements Serializable{
     private Double calificacion;
     private String carrera;
 
-    public Alumno(String noCOntrol, String nombre, String paterno, String materno, Double calificacion, String carrera) throws CalificacionErroneaExeption {
+    public Alumno(String noCOntrol, String nombre, String paterno, String materno, Double calificacion, String carrera) throws CalificacionErroneaExeption, CampoVacio {
         this.noCOntrol = noCOntrol;
-        this.nombre = nombre;
-        this.paterno = paterno;
-        this.materno = materno;
+        this.setNombre(nombre);
+        this.setPaterno(paterno);
+        this.setMaterno(materno);
         this.setCalificacion(calificacion);
-        this.carrera = carrera;
+        this.setCarrera(carrera);
     }
 
     public String getNoCOntrol() {
         return noCOntrol;
     }
 
-    public void setNoCOntrol(String noCOntrol) {
-        this.noCOntrol = noCOntrol;
+    public void setNoCOntrol(String noCOntrol) throws CampoVacio {
+        if (!noCOntrol.isEmpty()){
+            this.noCOntrol = noCOntrol;
+        }else {
+            throw new CampoVacio("Ingresa un ID ");
+        }
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public void setNombre(String nombre) throws CampoVacio {
 
-    public String getPaterno() {
-        return paterno;
-    }
-
-    public void setPaterno(String paterno) {
-        this.paterno = paterno;
-    }
-
-    public String getMaterno() {
-        return materno;
-    }
-
-    public void setMaterno(String materno) {
-        this.materno = materno;
-    }
-
-    public Double getCalificacion() {
-        return calificacion;
+        if (!nombre.isEmpty()) {
+            this.nombre = nombre;
+        } else {
+            throw new CampoVacio("Ingresa un nombre valido");
+        }
     }
 
     public void setCalificacion(Double calificacion) throws CalificacionErroneaExeption {
@@ -76,14 +65,52 @@ public class Alumno implements Serializable{
         }
     }
 
+    public void setPaterno(String paterno) throws CampoVacio {
+        if (!paterno.isEmpty()) {
+            this.paterno = paterno;
+        } else {
+            throw new CampoVacio("Ingresa un apellido valido");
+        }
+    }
+
+    public void setMaterno(String materno) throws CampoVacio {
+        if (!materno.isEmpty()) {
+            this.materno = materno;
+
+        } else {
+            throw new CampoVacio("Ingresa un apellido valido");
+        }
+    }
+
+    public void setCarrera(String carrera) throws CampoVacio {
+
+        if (!carrera.isEmpty()){
+            this.carrera = carrera;
+        }else{
+            throw new CampoVacio("Ingresa un apellido valido");
+        }
+    }
+
+    public String getPaterno() {
+        return paterno;
+    }
+
+
+    public String getMaterno() {
+        return materno;
+    }
+
+
+    public Double getCalificacion() {
+        return calificacion;
+    }
+
+
     public String getCarrera() {
 
         return carrera;
     }
 
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
 
     @Override
     public boolean equals(Object obj) {
