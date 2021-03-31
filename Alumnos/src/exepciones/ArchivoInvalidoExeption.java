@@ -5,6 +5,8 @@
  */
 package exepciones;
 
+import controlador.Controller;
+
 /**
  *
  * @author Megabit
@@ -24,7 +26,8 @@ public class ArchivoInvalidoExeption extends Exception {
      *
      * @param msg the detail message.
      */
-    public ArchivoInvalidoExeption(String msg) {
+    public ArchivoInvalidoExeption(String msg) throws ArchivoInvalidoExeption, CargarArchivoExption {
         super(msg);
+
     }
 }

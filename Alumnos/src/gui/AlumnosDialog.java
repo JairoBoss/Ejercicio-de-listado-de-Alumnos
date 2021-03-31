@@ -6,6 +6,7 @@
 package gui;
 
 import exepciones.*;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +16,6 @@ import exepciones.CampoVacio;
 import model.Alumno;
 
 /**
- *
  * @author Megabit
  */
 public class AlumnosDialog extends JDialog {
@@ -25,7 +25,6 @@ public class AlumnosDialog extends JDialog {
     private JLabel lblCarrera;
 
     private AlumnoDialogListener listener;
-
 
 
     private JLabel lblNoControl;
@@ -58,7 +57,7 @@ public class AlumnosDialog extends JDialog {
         lblNombre = new JLabel("Nombre del alumno");
         edtNombre = new JTextField(15);
 
-        carreras = new String[]{"SISTEMAS", "ELECTRONICA", "NUTRICION", "ARQUITECTURA", "GASTRONOMIA", "FISIOTERAPIA","DERECHO","ENFERMERIA"};
+        carreras = new String[]{"SISTEMAS", "ELECTRONICA", "NUTRICION", "ARQUITECTURA", "GASTRONOMIA", "FISIOTERAPIA", "DERECHO", "ENFERMERIA"};
         comboBoxCarreras = new JComboBox(carreras);
         comboBoxCarreras.setSelectedIndex(-1);
         lblCarrera = new JLabel("Selecciona la carrera");
@@ -81,48 +80,30 @@ public class AlumnosDialog extends JDialog {
 
                     String x = ((String) comboBoxCarreras.getSelectedItem());
                     /*
+                     *
+                     * */
+                    if (x == null) {
+                        JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega una carrera", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
 
-                    if  (edtNoControl.getText().isEmpty() || edtNombre.getText().isEmpty() || edtPaterno.getText().isEmpty() || edtMaterno.getText().isEmpty() || x == null){
-                        if (edtNoControl.getText().isEmpty()) {
-                            edtNoControl.requestFocus(true);
-                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un ID", "Error", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        if (edtNombre.getText().isEmpty()) {
-                            edtNombre.requestFocus(true);
-                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido nombre", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        if (edtPaterno.getText().isEmpty()) {
-                            edtPaterno.requestFocus(true);
-                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido paterno", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        if (edtMaterno.getText().isEmpty()) {
-                            edtMaterno.requestFocus(true);
-                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido materno", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }else{*/
-                        if (x == null) {
-                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega una carrera", "Error", JOptionPane.ERROR_MESSAGE);
-                        }else {
+                        alumno = new Alumno(edtNoControl.getText(),
+                                edtNombre.getText(),
+                                edtPaterno.getText(),
+                                edtMaterno.getText(),
+                                (new Double(edtCalificacion.getText())),
+                                x);
 
-                            alumno = new Alumno(edtNoControl.getText(),
-                                    edtNombre.getText(),
-                                    edtPaterno.getText(),
-                                    edtMaterno.getText(),
-                                    (new Double(edtCalificacion.getText())),
-                                    x);
-
-                            listener.aceptarButtonClick(alumno);
-                        }
+                        listener.aceptarButtonClick(alumno);
+                    }
 
                 } catch (CalificacionErroneaExeption ex) {
                     //JOptionPane.showMessageDialog(AlumnosDialog.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                catch (CampoVacio ex){
-                   JOptionPane.showMessageDialog(AlumnosDialog.this, "Dejaste un campo vacio", "Error", JOptionPane.ERROR_MESSAGE);JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (CampoVacio ex) {
+                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Dejaste un campo vacio", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(AlumnosDialog.this, "Error al convertir la calificaion", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -166,7 +147,7 @@ public class AlumnosDialog extends JDialog {
     }
 
 
-    public void clean(){
+    public void clean() {
         this.edtNoControl.setText("");
         this.edtNombre.setText("");
         this.edtPaterno.setText("");
@@ -175,3 +156,27 @@ public class AlumnosDialog extends JDialog {
         comboBoxCarreras.setSelectedIndex(-1);
     }
 }
+
+
+/*
+
+                    if  (edtNoControl.getText().isEmpty() || edtNombre.getText().isEmpty() || edtPaterno.getText().isEmpty() || edtMaterno.getText().isEmpty() || x == null){
+                        if (edtNoControl.getText().isEmpty()) {
+                            edtNoControl.requestFocus(true);
+                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un ID", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (edtNombre.getText().isEmpty()) {
+                            edtNombre.requestFocus(true);
+                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido nombre", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        if (edtPaterno.getText().isEmpty()) {
+                            edtPaterno.requestFocus(true);
+                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido paterno", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        if (edtMaterno.getText().isEmpty()) {
+                            edtMaterno.requestFocus(true);
+                            JOptionPane.showMessageDialog(AlumnosDialog.this, "Agrega un apellido materno", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else{*/
+

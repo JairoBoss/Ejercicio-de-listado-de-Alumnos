@@ -97,14 +97,17 @@ public class Controller implements Serializable {
             } catch (IOException e)
             {
                 throw new CargarArchivoExption("Error al cargar el archivo");
+
             } catch (ClassNotFoundException e)
             {
                 throw new ArchivoInvalidoExeption("El archivo ah sido corrompido");
+    //            alumnos = new ArrayList<>();
             }
 
         } else
         {
             alumnos = new ArrayList<>();
+
         }
 
     }
@@ -127,4 +130,29 @@ public class Controller implements Serializable {
 
     }
 
+    public String borrarAlumno(String id){
+        for (Alumno alumno : alumnos)
+        {
+            if (alumno.getNoCOntrol().equals(id))
+            {
+                Alumno prueba = alumno;
+                alumnos.remove(alumno);
+                return String.format("El alumno con los siguientes datos ah sido borrado\n\n" +
+                        " Numero de control: %s \n"
+                        + " Nombre: %s \n"
+                        + " Apellido paterno: %s \n"
+                        + " Apellido materno: %s \n"
+                        + " Carrera: %s \n"
+                        + " Calificacion: %.2f \n", prueba.getNoCOntrol(),prueba.getNombre(), prueba.getPaterno(),prueba.getMaterno(),prueba.getCarrera(),prueba.getCalificacion());
+
+            }
+        }
+
+        return "El alumno no existe";
+
+    }
+
+    public void crear() {
+        alumnos = new ArrayList<>();
+    }
 }

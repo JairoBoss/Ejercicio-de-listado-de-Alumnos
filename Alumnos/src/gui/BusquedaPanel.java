@@ -48,6 +48,10 @@ public class BusquedaPanel extends JPanel{
         
     }
 
+    public void clean(){
+        edtId.setText("");
+    }
+
     public void setListener(BusquedaPanelListener listener) {
         this.listener = listener;
     }

@@ -28,12 +28,17 @@ import java.util.logging.Logger;
  */
 
 public class PrincipalFrame extends JFrame {
+
+    private EliminarAlumnosDialog eliminarAlumnosDialog;
+
     private AcercaDeDialog acercaDeDialog;
     private BusquedaPanel pnlBusqueda;
     private JTable tblAlumnos;
     private Controller controlador;
     private AlumnosDialog dlgAlumno;
     private AlumnosTableModel modelAlumnos;
+
+
 
     public PrincipalFrame() throws AlumnosExistenteExeption, CargarArchivoExption, ArchivoInvalidoExeption {
         super("Control escolar");
@@ -71,11 +76,28 @@ public class PrincipalFrame extends JFrame {
                         "Informacion del alumno", 
                         JOptionPane.INFORMATION_MESSAGE
                 );
+                pnlBusqueda.clean();
                 
             }
         });
 
         acercaDeDialog = new AcercaDeDialog(this);
+        eliminarAlumnosDialog = new EliminarAlumnosDialog(this);
+        eliminarAlumnosDialog.setListener(new EliminarAlumnoListener() {
+            @Override
+            public void eliminarButtonCLick(String noControl) {
+                JOptionPane.showMessageDialog(PrincipalFrame.this, controlador.borrarAlumno(noControl), "Alumno", JOptionPane.ERROR_MESSAGE);
+                modelAlumnos.fireTableDataChanged();
+                eliminarAlumnosDialog.clean();
+                eliminarAlumnosDialog.setVisible(false);
+
+            }
+
+            @Override
+            public void salirButtonClick() {
+                eliminarAlumnosDialog.setVisible(false);
+            }
+        });
 
         dlgAlumno = new AlumnosDialog(this);
         dlgAlumno.setListener(new AlumnoDialogListener() {
@@ -116,6 +138,7 @@ public class PrincipalFrame extends JFrame {
         JMenu mmAlumnos = new JMenu("Alumnos");
         JMenuItem miNuevoAlumno = new JMenuItem("Nuevo ..");
         JMenuItem miSalir = new JMenuItem("Salir");
+        JMenuItem miEliminarAlumno = new JMenuItem("Eliminar alumno");
 
         miSalir.addActionListener(new ActionListener() {
             @Override
@@ -129,6 +152,14 @@ public class PrincipalFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dlgAlumno.setVisible(true);
+            }
+        });
+
+
+        miEliminarAlumno.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                eliminarAlumnosDialog.setVisible(true);
             }
         });
 
@@ -153,8 +184,9 @@ public class PrincipalFrame extends JFrame {
             }
         });
 
+        mmAlumnos.add(miEliminarAlumno);
         mmAlumnos.add(miGuardar);
-        mmAlumnos.add(new JSeparator());        
+        mmAlumnos.add(new JSeparator());
         mmAlumnos.add(miSalir);
 
         JMenu mmAyuda = new JMenu("Ayuda");
